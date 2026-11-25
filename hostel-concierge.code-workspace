@@ -1,0 +1,9 @@
+{
+  "folders": [
+    { "name": "mcp_servers", "path": "mcp_servers" },
+    { "name": "agent", "path": "agent" }
+  ],
+  "settings": {
+    "python.terminal.activateEnvironment": true
+  }
+}
