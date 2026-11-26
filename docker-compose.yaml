@@ -1,0 +1,13 @@
+
+services:
+  fastmcp:
+    build:
+      context: mcp_server
+      dockerfile: Dockerfile
+
+    container_name: mcp_server
+
+    ports:
+      - "8000:8000"
+
+    restart: unless-stopped

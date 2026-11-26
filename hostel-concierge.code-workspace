@@ -1,7 +1,6 @@
 {
   "folders": [
-    { "name": "mcp_servers", "path": "mcp_servers" },
-    { "name": "agent", "path": "agent" }
+    { "name": "hostel-concierge", "path": "." }
   ],
   "settings": {
     "python.terminal.activateEnvironment": true

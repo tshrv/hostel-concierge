@@ -1,0 +1,1 @@
+- Ignore the `.notes` folder entirely.
