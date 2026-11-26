@@ -7,6 +7,9 @@ services:
 
     container_name: mcp_server
 
+    volumes:
+      - ./data:/data
+
     ports:
       - "8000:8000"
 

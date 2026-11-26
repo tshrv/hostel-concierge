@@ -16,8 +16,7 @@ llm = ChatGoogleGenerativeAI(
     vertexai=True,
 )
 
-ALLOWED_RESEARCH_TOOLS = ["search_docs"]
-ALLOWED_DATA_TOOLS = ["calculate_average"]
+ALLOWED_RESERVATIONS_TOOLS = ["get_guest_info"]
 
 def select_tools(all_tools, allowed_tools: set[str]):
     available = {t.name: t for t in all_tools}
@@ -34,36 +33,26 @@ async def main(guest_id: str):
     
     async with MCPAdapter("http://localhost:8000/mcp") as mcp:
         all_tools = await mcp.list_tools()
-        research_tools = select_tools(all_tools, ALLOWED_RESEARCH_TOOLS)
-        data_tools = select_tools(all_tools, ALLOWED_DATA_TOOLS)
+        reservations_tools = select_tools(all_tools, ALLOWED_RESERVATIONS_TOOLS)
 
         logger.info("Tool selection complete. Creating agents...")
-        research_agent = create_agent(
+        reservations_agent = create_agent(
             llm,
-            research_tools,
-            system_prompt="You are a research specialist. Use your tools to find information.",
-        )
-        data_agent = create_agent(
-            llm,
-            data_tools,
-            system_prompt="You are a data analyst. Use your tools for calculations.",
+            reservations_tools,
+            system_prompt="You are a reservations specialist. Use your tools to find information.",
         )
 
         @tool
-        async def ask_researcher(request: str) -> str:
-            """Delegate research or information lookup tasks to the research specialist."""
-            result = await research_agent.ainvoke({"messages": [("user", request)]})
-            return result["messages"][-1].text
-
-        @tool
-        async def ask_data_analyst(request: str) -> str:
-            """Delegate calculations and data analysis to the data specialist."""
-            result = await data_agent.ainvoke({"messages": [("user", request)]})
+        async def ask_reservations(request: str) -> str:
+            """Delegate guests and booking related tasks to the reservations specialist."""
+            result = await reservations_agent.ainvoke({"messages": [("user", request)]})
             return result["messages"][-1].text
 
         orchestrator = create_agent(
             llm,
-            [ask_researcher, ask_data_analyst],
+            [
+                ask_reservations,
+            ],
             system_prompt=(
                 "You are an orchestrator. Break the user's request into steps, "
                 "delegate each to the right specialist, and combine their answers."
@@ -73,7 +62,7 @@ async def main(guest_id: str):
         result = await orchestrator.ainvoke(
             {
                 "messages": [
-                    ("user", "Find out what LangGraph is, then average 10, 20 and 60.")
+                    ("user", "Guest G001 is in which room and when is checkout?")
                 ]
             }
         )
