@@ -16,17 +16,28 @@ llm = ChatGoogleGenerativeAI(
     vertexai=True,
 )
 
+ALLOWED_RESEARCH_TOOLS = ["search_docs"]
+ALLOWED_DATA_TOOLS = ["calculate_average"]
+
+def select_tools(all_tools, allowed_tools: set[str]):
+    available = {t.name: t for t in all_tools}
+
+    missing = allowed_tools - available.keys()
+    if missing:
+        logger.error(f"MCP tools not found: {missing}")
+        raise ValueError(f"MCP tools not found: {missing}")
+
+    return [available[name] for name in allowed_tools]
 
 async def main(guest_id: str):
     logger.info(f"Starting orchestrator for guest_id: {guest_id}")
     
-    async with (
-        MCPAdapter("http://localhost:8000/mcp") as research_mcp,
-        MCPAdapter("http://localhost:8000/mcp") as data_mcp,
-    ):
-        research_tools = await research_mcp.list_tools()
-        data_tools = await data_mcp.list_tools()
+    async with MCPAdapter("http://localhost:8000/mcp") as mcp:
+        all_tools = await mcp.list_tools()
+        research_tools = select_tools(all_tools, ALLOWED_RESEARCH_TOOLS)
+        data_tools = select_tools(all_tools, ALLOWED_DATA_TOOLS)
 
+        logger.info("Tool selection complete. Creating agents...")
         research_agent = create_agent(
             llm,
             research_tools,
