@@ -1,0 +1,69 @@
+{
+  "currency": "INR",
+  "items": [
+    {
+      "id": "M01",
+      "name": "Veg Sandwich",
+      "price": 120,
+      "allergens": ["gluten", "dairy"],
+      "stock": 12,
+      "vegetarian": true
+    },
+    {
+      "id": "M02",
+      "name": "Coffee",
+      "price": 60,
+      "allergens": ["dairy"],
+      "stock": 40,
+      "vegetarian": true
+    },
+    {
+      "id": "M03",
+      "name": "Masala Omelette",
+      "price": 90,
+      "allergens": ["egg"],
+      "stock": 10,
+      "vegetarian": false
+    },
+    {
+      "id": "M04",
+      "name": "Peanut Butter Toast",
+      "price": 80,
+      "allergens": ["gluten", "peanuts"],
+      "stock": 8,
+      "vegetarian": true
+    },
+    {
+      "id": "M05",
+      "name": "Paneer Wrap",
+      "price": 150,
+      "allergens": ["gluten", "dairy"],
+      "stock": 0,
+      "vegetarian": true
+    },
+    {
+      "id": "M06",
+      "name": "Aloo Paratha",
+      "price": 100,
+      "allergens": ["gluten", "dairy"],
+      "stock": 15,
+      "vegetarian": true
+    },
+    {
+      "id": "M07",
+      "name": "Fresh Fruit Bowl",
+      "price": 110,
+      "allergens": [],
+      "stock": 6,
+      "vegetarian": true
+    },
+    {
+      "id": "M08",
+      "name": "Masala Chai",
+      "price": 40,
+      "allergens": ["dairy"],
+      "stock": 50,
+      "vegetarian": true
+    }
+  ]
+}

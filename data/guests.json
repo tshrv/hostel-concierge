@@ -1,0 +1,52 @@
+{
+  "guests": [
+    {
+      "id": "G001",
+      "name": "Aarav Sharma",
+      "room": "305",
+      "check_in_date": "2026-11-25",
+      "checkout_date": "2026-11-28",
+      "status": "checked-in"
+    },
+    {
+      "id": "G002",
+      "name": "Meera Iyer",
+      "room": "204",
+      "check_in_date": "2026-11-24",
+      "checkout_date": "2026-11-29",
+      "status": "checked-in"
+    },
+    {
+      "id": "G003",
+      "name": "Liam O'Connor",
+      "room": "112",
+      "check_in_date": "2026-11-20",
+      "checkout_date": "2026-11-26",
+      "status": "checked-out"
+    },
+    {
+      "id": "G004",
+      "name": "Sofia Rossi",
+      "room": "118",
+      "check_in_date": "2026-11-30",
+      "checkout_date": "2026-12-03",
+      "status": "booked"
+    },
+    {
+      "id": "G005",
+      "name": "Kenji Tanaka",
+      "room": "210",
+      "check_in_date": "2026-11-26",
+      "checkout_date": "2026-11-29",
+      "status": "checked-in"
+    },
+    {
+      "id": "G006",
+      "name": "Priya Nair",
+      "room": "301",
+      "check_in_date": "2026-11-28",
+      "checkout_date": "2026-12-01",
+      "status": "booked"
+    }
+  ]
+}

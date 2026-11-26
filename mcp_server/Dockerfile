@@ -20,4 +20,4 @@ COPY . .
 ENV PATH="/app/.venv/bin:$PATH"
 
 
-CMD ["fastmcp", "run", "main.py:app", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["fastmcp", "run", "main.py:mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8000"]

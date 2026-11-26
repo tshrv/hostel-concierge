@@ -8,4 +8,6 @@ dependencies = [
     "langchain[mcp]>=1.4.0",
     "langchain-google-genai>=4.5.3",
     "langgraph>=1.2.24",
+    "loguru>=0.8.0",
+    "pydantic-settings>=2.16.3",
 ]

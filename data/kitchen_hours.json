@@ -1,0 +1,8 @@
+{
+  "timezone": "Asia/Kolkata",
+  "meals": [
+    { "meal": "breakfast", "opens": "07:30", "closes": "10:30" },
+    { "meal": "lunch",     "opens": "12:30", "closes": "15:00" },
+    { "meal": "dinner",    "opens": "19:00", "closes": "22:00" }
+  ]
+}
