@@ -4,6 +4,7 @@ import sys
 from langchain.agents import create_agent
 from langchain.mcp import MCPAdapter
 from langchain.tools import tool
+from langchain_core.tools import StructuredTool
 from langchain_google_genai import ChatGoogleGenerativeAI
 from loguru import logger
 
@@ -30,12 +31,45 @@ def select_tools(all_tools, allowed_tools: set[str]):
     return [available[name] for name in allowed_tools]
 
 
+def bind_context(mcp_tools, context: dict):
+    result = []
+
+    for mcp_tool in mcp_tools:
+
+        async def execute(_tool=mcp_tool, **kwargs):
+            injected = {
+                key: value for key, value in context.items() if key in _tool.args
+            }
+
+            return await _tool.ainvoke(
+                {
+                    **kwargs,
+                    **injected,
+                }
+            )
+
+        result.append(
+            StructuredTool.from_function(
+                coroutine=execute,
+                name=mcp_tool.name,
+                description=mcp_tool.description,
+            )
+        )
+
+    return result
+
+
 async def main(guest_id: str):
     logger.info(f"Starting orchestrator for guest_id: {guest_id}")
-
+    context = {
+        "guest_id": guest_id,
+    }
     async with MCPAdapter("http://localhost:8000/mcp") as mcp:
         all_tools = await mcp.list_tools()
-        reservations_tools = select_tools(all_tools, ALLOWED_RESERVATIONS_TOOLS)
+        reservations_tools = bind_context(
+            select_tools(all_tools, ALLOWED_RESERVATIONS_TOOLS),
+            context,
+        )
 
         logger.info("Tool selection complete. Creating agents...")
         reservations_agent = create_agent(
@@ -47,6 +81,7 @@ async def main(guest_id: str):
         @tool
         async def ask_reservations(request: str) -> str:
             """Delegate guests and booking related tasks to the reservations specialist."""
+            logger.debug(f"Delegating to reservations agent: {request}")
             result = await reservations_agent.ainvoke({"messages": [("user", request)]})
             return result["messages"][-1].text
 
