@@ -18,6 +18,7 @@ llm = ChatGoogleGenerativeAI(
 
 ALLOWED_RESERVATIONS_TOOLS = ["get_guest_info"]
 
+
 def select_tools(all_tools, allowed_tools: set[str]):
     available = {t.name: t for t in all_tools}
 
@@ -28,9 +29,10 @@ def select_tools(all_tools, allowed_tools: set[str]):
 
     return [available[name] for name in allowed_tools]
 
+
 async def main(guest_id: str):
     logger.info(f"Starting orchestrator for guest_id: {guest_id}")
-    
+
     async with MCPAdapter("http://localhost:8000/mcp") as mcp:
         all_tools = await mcp.list_tools()
         reservations_tools = select_tools(all_tools, ALLOWED_RESERVATIONS_TOOLS)
