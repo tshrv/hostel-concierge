@@ -21,6 +21,9 @@ ALLOWED_RESERVATIONS_TOOLS = ["get_guest_info"]
 
 
 def select_tools(all_tools, allowed_tools: set[str]):
+    """
+    Select tools from a list of all tools based on a set of allowed tool names.
+    """
     available = {t.name: t for t in all_tools}
 
     missing = allowed_tools - available.keys()
@@ -32,6 +35,9 @@ def select_tools(all_tools, allowed_tools: set[str]):
 
 
 def bind_context(mcp_tools, context: dict):
+    """
+    Bind context to the tools by injecting the context values into the tool's arguments.
+    """
     result = []
 
     for mcp_tool in mcp_tools:
